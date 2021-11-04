@@ -1,0 +1,37 @@
+version: "3"
+services:
+  mapiacompany_db:
+    image: neo4j:4.3
+    container_name: mapiacompany_db
+    environment:
+      - NEO4J_AUTH=neo4j/test
+    volumes:
+      - ./database:/data
+    ports:
+      - 7474:7474
+      - 7687:7687
+    restart: always
+  mapiacompany_backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev-local
+    container_name: mapiacompany_backend
+    ports:
+      - 8000:8000
+    depends_on:
+      - mapiacompany_db
+    restart: always
+    environment:
+      DB_HOST: mapiacompany_db
+      DB_NAME: mapiacompany
+      DJANGO_SETTINGS_MODULE: mapiacompany.settings.dev_local
+    env_file:
+      - .dockerenv.dev_local
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
