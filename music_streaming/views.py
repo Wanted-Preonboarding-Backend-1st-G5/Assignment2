@@ -3,8 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from music_streaming.models import Album
-from music_streaming.serializers import AlbumSerializer
+from music_streaming.models import Album, Musician
+from music_streaming.serializers import AlbumSerializer, MusicianSerializer
 
 
 class AlbumViewSet(viewsets.GenericViewSet):
@@ -60,3 +60,48 @@ class AlbumViewSet(viewsets.GenericViewSet):
         songs = album.song.all()
         pass
 
+class MusicianViewSet(viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+
+    def create(self, request):
+        """
+        POST /musicians/
+
+        data params
+        - name(required)
+        """
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error':'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
+        musician = Musician(name=name).save()
+        rtn = MusicianSerializer(musician).data
+        return Response(rtn, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        GET /musicians/
+
+        """
+        musicians = Musician.nodes.all()
+        rtn = MusicianSerializer(musicians, many=True).data
+        return Response(rtn, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, pk):
+        """
+        GET /musicians/{musician_uuid}/
+        """
+        pass
+
+    def partial_update(self, request, pk):
+        """
+        PATCH /musicians/{musician_uuid}/
+        """
+        pass
+
+    def destroy(self, request, pk):
+        """
+        DELETE /musicians/{musician_uuid}/
+        """
+        musician = Musician.nodes.get_or_none(uuid=pk)
+        musician.delete()
+        return Response(status=status.HTTP_200_OK)

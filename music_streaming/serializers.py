@@ -6,3 +6,9 @@ class AlbumSerializer(serializers.BaseSerializer):
         return {
             'name': album.name,
         }
+
+class MusicianSerializer(serializers.BaseSerializer):
+    def to_representation(self, musician):
+        return {
+            'name': musician.name,
+        }
