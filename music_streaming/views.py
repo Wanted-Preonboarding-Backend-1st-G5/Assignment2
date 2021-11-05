@@ -1,3 +1,4 @@
+import neomodel
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -60,6 +61,23 @@ class AlbumViewSet(viewsets.GenericViewSet):
         songs = album.song.all()
         pass
 
+    @action(detail=True, methods=['GET'])
+    def musicians(self, request, pk):
+        """
+        GET /albums/{album_id}/musicians/
+        """
+        album = Album.nodes.get_or_none(uuid=pk)
+        if album is None:
+            return Response({'error': 'DoesNotExist'})
+        query = f'''
+            MATCH (a:Album {{uuid:'{pk}'}})<-[*]-(s:Song)-[*]->(m:Musician) return DISTINCT m
+        '''
+        rtn, meta = neomodel.db.cypher_query(query)
+        musicians = [Musician.inflate(row[0]) for row in rtn]
+        return Response(MusicianSerializer(musicians, many=True).data)
+
+
+
 class MusicianViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
@@ -72,7 +90,7 @@ class MusicianViewSet(viewsets.GenericViewSet):
         """
         name = request.data.get('name')
         if name is None:
-            return Response({'error':'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'name field is required.'}, status=status.HTTP_400_BAD_REQUEST)
         musician = Musician(name=name).save()
         rtn = MusicianSerializer(musician).data
         return Response(rtn, status=status.HTTP_201_CREATED)
