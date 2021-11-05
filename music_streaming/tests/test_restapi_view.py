@@ -70,10 +70,7 @@ class SongViewTest(APITestCase):
 
     def test_get_one_list_fail(self):
         response = self.client.get(f'/songs/{self.song1.uuid[:-1]}/')
-        expected_data = {
-            "name": "커피노래"
-        }
-        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.json(), {'error': 'DoesNotExist'})
 
     def test_delete_success(self):
@@ -90,7 +87,7 @@ class SongViewTest(APITestCase):
     
     def test_album_of_song_fail(self):
         response = self.client.get(f'/songs/{self.song1.uuid[:-1]}/album/')
-        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.json(), {'error': 'DoesNotExist'})
 
     def test_musicians_of_song_success(self):
@@ -103,5 +100,5 @@ class SongViewTest(APITestCase):
     
     def test_musician_of_song_fail(self):
         response = self.client.get(f'/songs/{self.song1.uuid[:-1]}/musicians/')
-        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.json(), {'error': 'DoesNotExist'})
