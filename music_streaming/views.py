@@ -8,6 +8,9 @@ from rest_framework.exceptions   import ValidationError
 from drf_yasg                    import openapi
 from drf_yasg.utils              import swagger_auto_schema
 
+from drf_yasg                    import openapi
+from drf_yasg.utils              import swagger_auto_schema
+
 from music_streaming.models      import Album, Musician, Song
 from music_streaming.serializers import AlbumSerializer, MusicianSerializer, SongSerializer
 

@@ -24,9 +24,9 @@ from music_streaming.schema  import schema
 
 schema_view = get_schema_view(
     openapi.Info( 
-        title            = "Maiacompany",
+        title            = "Mafiacompany",
         default_version  = "v1",
-        description      = "maiacompany 과제 API",
+        description      = "Mafiacompany 과제 API",
         terms_of_service = "https://www.google.com/policies/terms/",
         contact          = openapi.Contact(name="test", email="test@test.com"),
         license          = openapi.License(name="Test License"),
