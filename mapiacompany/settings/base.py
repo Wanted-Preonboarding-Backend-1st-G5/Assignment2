@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'strawberry.django',
     'django_extensions',
+    'django_neomodel',
+    'music_streaming',
 ]
 
 MIDDLEWARE = [
