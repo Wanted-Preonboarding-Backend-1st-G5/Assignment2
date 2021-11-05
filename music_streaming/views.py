@@ -4,7 +4,7 @@ from rest_framework              import status, viewsets
 from rest_framework.decorators   import action
 from rest_framework.response     import Response
 from rest_framework.permissions  import IsAuthenticated, AllowAny
-
+from rest_framework.exceptions   import ValidationError
 from drf_yasg                    import openapi
 from drf_yasg.utils              import swagger_auto_schema
 
@@ -102,7 +102,7 @@ class AlbumViewSet(viewsets.GenericViewSet):
         """
         album = Album.nodes.get_or_none(uuid=pk)
         if album is None:
-            return Response({'error': 'DoesNotExist'})
+            return Response({'error': 'DoesNotExist'}, status=status.HTTP_400_BAD_REQUEST)
         songs = album.song.all()
         rtn = SongSerializer(songs, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
@@ -122,7 +122,7 @@ class AlbumViewSet(viewsets.GenericViewSet):
         """
         album = Album.nodes.get_or_none(uuid=pk)
         if album is None:
-            return Response({'error': 'DoesNotExist'})
+            return Response({'error': 'DoesNotExist'}, status=status.HTTP_400_BAD_REQUEST)
         query = f'''
             MATCH (a:Album {{uuid:'{pk}'}})<-[*]-(s:Song)-[*]->(m:Musician) return DISTINCT m
         '''
@@ -150,7 +150,7 @@ class MusicianViewSet(viewsets.GenericViewSet):
         """
         name = request.data.get('name')
         if name is None:
-            return Response({'error':'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
         musician = Musician(name=name).save()
         rtn = MusicianSerializer(musician).data
         return Response(rtn, status=status.HTTP_201_CREATED)
@@ -363,3 +363,56 @@ class SongViewSet(viewsets.GenericViewSet):
         musicians = song.musician.all()
         rtn = MusicianSerializer(musicians, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
+
+class ConnectionViewSet(viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+
+    def validate_connect_params(self, request):
+        # return: (album:uuid, musician:uuid, song:uuid)
+        song = request.data.get('song')
+        album = request.data.get('album')
+        musician = request.data.get('musician')
+
+        if song and album and musician is None:
+            return album, None, song
+        if song and musician and not album:
+            return None, musician, song
+        else:
+            raise ValidationError({'error': 'should be (song and album) or (song and musician)'})
+
+    def get_connection_targets(self, request):
+        # return: {Album_or_Musician}, {Song}
+        album, musician, song = self.validate_connect_params(request)
+        if album:
+            target = Album.nodes.get_or_none(uuid=album)
+        if musician:
+            target = Musician.nodes.get_or_none(uuid=musician)
+        song = Song.nodes.get_or_none(uuid=song)
+        if target is None or song is None:
+            raise ValidationError({'error': 'DoesNotExist'})
+        return target, song
+
+    def create(self, request):
+        """
+        POST /connections/
+
+        data params
+        - case1 : song and album
+        - case2:  song and musician
+        """
+        target, song = self.get_connection_targets(request)
+        if target.song.connect(song):
+            return Response({'success': f'{target.name} and {song.name} connected'}, status=status.HTTP_201_CREATED)
+
+    @action(methods=['DELETE'], detail=False)
+    def dis(self, request):
+        """
+        DELETE /connections/dis/
+
+        data params
+        - case1 : song and album
+        - case2:  song and musician
+        """
+        target, song = self.get_connection_targets(request)
+        target.song.disconnect(song)
+        return Response(status=status.HTTP_200_OK)
