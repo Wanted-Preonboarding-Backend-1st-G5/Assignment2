@@ -9,7 +9,7 @@ from .models import Album, Musician, Song
 @strawberry.type
 class Query:
     @strawberry.field
-    def get_musicians_of_song(self, uuid: str) -> typing.Optional[list[MusicianType]]:
+    def get_musicians_of_song(self, uuid: str) -> typing.Optional[typing.List[MusicianType]]:
         try:
             song = Song.nodes.get(uuid=uuid)
             musicians = song.musician.all()
