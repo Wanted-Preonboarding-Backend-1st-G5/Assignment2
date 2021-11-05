@@ -9,10 +9,23 @@ from .models import Album, Musician, Song
 @strawberry.type
 class Query:
     @strawberry.field
-    def get_album_of_song(self, name: strawberry.ID) -> AlbumType:
-        s = Song.nodes.get(name=name)
-        a = s.album.get_or_none()
-        return AlbumType(id=a.id, name=a.name)
+    def get_musicians_of_song(self, uuid: str) -> typing.Optional[list[MusicianType]]:
+        try:
+            song = Song.nodes.get(uuid=uuid)
+            musicians = song.musician.all()
+            return [MusicianType(**m.to_dictionary()) for m in musicians]
+        except:
+            return None
+
+    @strawberry.field
+    def get_album_of_song(self, uuid: str) -> typing.Optional[AlbumType]:
+        try:
+            s = Song.nodes.get(uuid=uuid)
+            a = s.album.get_or_none()
+            return AlbumType(uuid=a.uuid, name=a.name)
+        except:
+            return None
+
 
     @strawberry.field
     def get_song_of_album(self, uuid: str) -> typing.Optional[typing.List[SongType]]:
