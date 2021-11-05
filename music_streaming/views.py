@@ -307,7 +307,7 @@ class SongViewSet(viewsets.GenericViewSet):
         """
         song = Song.nodes.get_or_none(uuid=pk)
         if song is None:
-            return Response({'error': 'DoesNotExist'})
+            return Response({'error': 'DoesNotExist'},status=status.HTTP_400_BAD_REQUEST)
         rtn = AlbumSerializer(song).data
         return Response(rtn, status=status.HTTP_200_OK)
 
@@ -336,13 +336,13 @@ class SongViewSet(viewsets.GenericViewSet):
         operation_description = "특정 곡의 앨범을 조회합니다"
     )
     @action(detail=True, methods=['GET'])
-    def albums(self, request, pk):
+    def album(self, request, pk):
         """
         GET /songs/{song_id}/album/
         """
         song = Song.nodes.get_or_none(uuid=pk)
         if song is None:
-            return Response({'error': 'DoesNotExist'})
+            return Response({'error': 'DoesNotExist'},status.HTTP_400_BAD_REQUEST)
         albums = song.album.all()
         rtn = AlbumSerializer(albums, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
@@ -362,7 +362,7 @@ class SongViewSet(viewsets.GenericViewSet):
         """
         song = Song.nodes.get_or_none(uuid=pk)
         if song is None:
-            return Response({'error': 'DoesNotExist'})
+            return Response({'error': 'DoesNotExist'},status.HTTP_400_BAD_REQUEST)
         musicians = song.musician.all()
         rtn = MusicianSerializer(musicians, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
