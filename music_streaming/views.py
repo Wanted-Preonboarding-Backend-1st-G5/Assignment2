@@ -1,10 +1,9 @@
-import neomodel
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework              import status, viewsets
+from rest_framework.decorators   import action
+from rest_framework.response     import Response
+from rest_framework.permissions  import IsAuthenticated, AllowAny
 
-from music_streaming.models import Album, Musician, Song
+from music_streaming.models      import Album, Musician
 from music_streaming.serializers import AlbumSerializer, MusicianSerializer, SongSerializer
 
 
@@ -24,31 +23,48 @@ class AlbumViewSet(viewsets.GenericViewSet):
         album = Album(name=name).save()
         rtn = AlbumSerializer(album).data
         return Response(rtn, status=status.HTTP_201_CREATED)
-        
+
     def list(self, request):
         """
         GET /albums/
-
         """
-        pass
+        albums = Album.nodes.all()
+        rtn = AlbumSerializer(albums, many=True).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk):
         """
         GET /albums/{album_id}/
         """
-        pass
+        album = Album.nodes.get_or_none(uuid=pk)
+        if album is None:
+            return Response({'error': 'DoesNotExist'})
+        rtn = AlbumSerializer(album).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk):
         """
         PATCH /albums/{album_id}/
+
+        data params
+        - name(required)
         """
-        pass
+        album = Album.nodes.get_or_none(uuid=pk)
+        album.delete()
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error': 'name field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        album = Album(name=name).save()
+        rtn = AlbumSerializer(album).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk):
         """
         DELETE /albums/{album_id}/
         """
-        pass
+        album = Album.nodes.get_or_none(uuid=pk)
+        album.delete()
+        return Response(status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['GET'])
     def songs(self, request, pk):
@@ -61,7 +77,7 @@ class AlbumViewSet(viewsets.GenericViewSet):
         songs = album.song.all()
         rtn = SongSerializer(songs, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
-
+    
     @action(detail=True, methods=['GET'])
     def musicians(self, request, pk):
         """
@@ -77,8 +93,6 @@ class AlbumViewSet(viewsets.GenericViewSet):
         musicians = [Musician.inflate(row[0]) for row in rtn]
         return Response(MusicianSerializer(musicians, many=True).data)
 
-
-
 class MusicianViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
@@ -91,7 +105,7 @@ class MusicianViewSet(viewsets.GenericViewSet):
         """
         name = request.data.get('name')
         if name is None:
-            return Response({'error': 'name field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error':'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
         musician = Musician(name=name).save()
         rtn = MusicianSerializer(musician).data
         return Response(rtn, status=status.HTTP_201_CREATED)
@@ -103,29 +117,53 @@ class MusicianViewSet(viewsets.GenericViewSet):
         """
         musicians = Musician.nodes.all()
         rtn = MusicianSerializer(musicians, many=True).data
-        return Response(rtn, status=status.HTTP_201_CREATED)
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk):
         """
-        GET /musicians/{musician_uuid}/
+        GET /musicians/{musician_id}/
         """
-        pass
+        musician = Musician.nodes.get_or_none(uuid=pk)
+        if musician is None:
+            return Response({'error': 'DoesNotExist'})
+        rtn = MusicianSerializer(musician).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk):
         """
-        PATCH /musicians/{musician_uuid}/
+        PATCH /musicians/{musician_id}/
+
+        data params
+        - name(required)
         """
-        pass
+        musician = Musician.nodes.get_or_none(uuid=pk)
+        musician.delete()
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error': 'name field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        musician = Musician(name=name).save()
+        rtn = MusicianSerializer(musician).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk):
         """
-        DELETE /musicians/{musician_uuid}/
+        DELETE /musicians/{musician_id}/
         """
         musician = Musician.nodes.get_or_none(uuid=pk)
         musician.delete()
         return Response(status=status.HTTP_200_OK)
-
-
+    
+    @action(detail=True, methods=['GET'])
+    def albums(self, request, pk):
+        """
+        GET /musicians/{musician_id}/albums/
+        """
+        musician = Musician.nodes.get_or_none(uuid=pk)
+        if musician is None:
+            return Response({'error': 'DoesNotExist'})
+        albums = musicians.album.all()
+        rtn = AlbumSerializer(albums, many=True).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
 class SongViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
