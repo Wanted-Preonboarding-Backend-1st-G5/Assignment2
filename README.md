@@ -97,10 +97,11 @@
 
 
 ## API
-http://배포서버주소:8000/swagger/
-혹은 서버 구동 후 
-http://localhost:8000/swagger/
+### RSET API
+http://18.188.189.173:8011/swagger/
 
+### GraphQL API
+http://18.188.189.173:8011/graphql
 ## 구현 기능
 ### 앨범 
 - 앨범의 이름을 입력받아 새로운 앨범을 등록합니다.
