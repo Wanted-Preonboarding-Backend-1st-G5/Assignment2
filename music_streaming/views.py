@@ -154,6 +154,18 @@ class MusicianViewSet(viewsets.GenericViewSet):
         return Response(status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['GET'])
+    def songs(self, request, pk):
+        """
+        GET /musicians/{musician_id}/songs/
+        """
+        musician = Musician.nodes.get_or_none(uuid=pk)
+        if musician is None:
+            return Response({'error': 'DoesNotExist'})
+        songs = musicians.song.all()
+        rtn = SongSerializer(songs, many=True).data
+        return Response(rtn, status=status.HTTP_200_OK)
+    
+    @action(detail=True, methods=['GET'])
     def albums(self, request, pk):
         """
         GET /musicians/{musician_id}/albums/
@@ -161,9 +173,12 @@ class MusicianViewSet(viewsets.GenericViewSet):
         musician = Musician.nodes.get_or_none(uuid=pk)
         if musician is None:
             return Response({'error': 'DoesNotExist'})
-        albums = musicians.album.all()
-        rtn = AlbumSerializer(albums, many=True).data
-        return Response(rtn, status=status.HTTP_200_OK)
+        query = f'''
+            MATCH (a:Musician {{uuid:'{pk}'}})<-[*]-(s:Song)-[*]->(m:Album) return DISTINCT m
+        '''
+        rtn, meta = neomodel.db.cypher_query(query)
+        albums = [Album.inflate(row[0]) for row in rtn]
+        return Response(AlbumSerializer(albums, many=True).data)
 
 class SongViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
