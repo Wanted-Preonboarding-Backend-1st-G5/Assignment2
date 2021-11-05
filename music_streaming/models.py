@@ -1,5 +1,4 @@
 import json
-
 from neomodel import (
                 StructuredNode, StringProperty, RelationshipTo,
                  One, RelationshipFrom, OneOrMore, UniqueIdProperty
@@ -12,8 +11,11 @@ class Song(StructuredNode):
     album    = RelationshipTo('Album', 'belongsto', cardinality=One)
     musician = RelationshipTo('Musician', 'writtenby', cardinality=OneOrMore)
 
-    def to_dictionary(self):
-        return json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+    def to_dictionary(self): 
+        data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+        if 'id' in data :
+            data.pop('id')
+        return data
 
 
 class Album(StructuredNode):
@@ -22,7 +24,10 @@ class Album(StructuredNode):
     song = RelationshipFrom('Song', 'belongsto', cardinality=OneOrMore)
 
     def to_dictionary(self): 
-        return json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+        data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+        if 'id' in data :
+            data.pop('id')
+        return data
 
 
 class Musician(StructuredNode):
@@ -31,4 +36,7 @@ class Musician(StructuredNode):
     song = RelationshipFrom('Song', 'writtenby', cardinality=OneOrMore)
 
     def to_dictionary(self): 
-        return json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+        data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
+        if 'id' in data :
+            data.pop('id')
+        return data
