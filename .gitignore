@@ -946,3 +946,8 @@ zsdoc/data
 # Docker for env, DB Folder
 database
 .dockerenv*
+
+static
+database_file
+
+!database_export.csv
