@@ -14,7 +14,7 @@
 |박지원 |[jiwon5304](https://github.com/jiwon5304) | 곡api, 테스트케이스 |
 |최신혁 |[shchoi94](https://github.com/shchoi94) | neo4j디비세팅, api세팅, 연결api |
 |박세원 |[sw-develop](https://github.com/sw-develop) | neo4j디비세팅, 모델링, 곡GraphQL작성 |
-|
+
 
 ## 과제 내용
 > 아래의 상황을 읽고 요구사항을 구현해주세요!
