@@ -22,10 +22,8 @@ services:
       - mapiacompany_db
     restart: always
     environment:
-      DB_HOST: mapiacompany_db
-      DB_NAME: mapiacompany
-      DJANGO_SETTINGS_MODULE: mapiacompany.settings.dev_local
-      NEOMODEL_NEO4J_BOLT_URL: neo4j:test@localhost:7687
+      - NEOMODEL_NEO4J_BOLT_URL=bolt://neo4j:test@mapiacompany_db:7687
+      - DJANGO_SETTINGS_MODULE=mapiacompany.settings.dev_local
     env_file:
       - .dockerenv.dev_local
     command:
