@@ -5,6 +5,9 @@ from rest_framework.decorators   import action
 from rest_framework.response     import Response
 from rest_framework.permissions  import IsAuthenticated, AllowAny
 
+from drf_yasg                    import openapi
+from drf_yasg.utils              import swagger_auto_schema
+
 from music_streaming.models      import Album, Musician, Song
 from music_streaming.serializers import AlbumSerializer, MusicianSerializer, SongSerializer
 
@@ -12,6 +15,14 @@ from music_streaming.serializers import AlbumSerializer, MusicianSerializer, Son
 class AlbumViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범 생성",
+        operation_description = "새 앨범을 생성합니다"
+    )
     def create(self, request):
         """
         POST /albums/
@@ -26,6 +37,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
         rtn = AlbumSerializer(album).data
         return Response(rtn, status=status.HTTP_201_CREATED)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범 리스트 조회",
+        operation_description = "모든 앨범 리스트를 조회합니다"
+    )
     def list(self, request):
         """
         GET /albums/
@@ -34,6 +53,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
         rtn = AlbumSerializer(albums, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범 조회",
+        operation_description = "특정 앨범을 조회합니다"
+    )
     def retrieve(self, request, pk):
         """
         GET /albums/{album_id}/
@@ -44,6 +71,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
         rtn = AlbumSerializer(album).data
         return Response(rtn, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범 삭제",
+        operation_description = "특정 앨범을 삭제합니다"
+    )
     def destroy(self, request, pk):
         """
         DELETE /albums/{album_id}/
@@ -52,6 +87,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
         album.delete()
         return Response(status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": SongSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범의 곡들 조회",
+        operation_description = "특정 앨범의 곡들을 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def songs(self, request, pk):
         """
@@ -64,6 +107,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
         rtn = SongSerializer(songs, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "앨범의 뮤지션들 조회",
+        operation_description = "특정 앨범의 뮤지션들을 곡을 통해서 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def musicians(self, request, pk):
         """
@@ -82,6 +133,14 @@ class AlbumViewSet(viewsets.GenericViewSet):
 class MusicianViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션 생성",
+        operation_description = "새 뮤지션을 생성합니다"
+    )
     def create(self, request):
         """
         POST /musicians/
@@ -96,6 +155,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
         rtn = MusicianSerializer(musician).data
         return Response(rtn, status=status.HTTP_201_CREATED)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션 리스트 조회",
+        operation_description = "모든 뮤지션 리스트를 조회합니다"
+    )
     def list(self, request):
         """
         GET /musicians/
@@ -105,6 +172,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
         rtn = MusicianSerializer(musicians, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션 조회",
+        operation_description = "특정 뮤지션을 조회합니다"
+    )
     def retrieve(self, request, pk):
         """
         GET /musicians/{musician_id}/
@@ -115,6 +190,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
         rtn = MusicianSerializer(musician).data
         return Response(rtn, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션 삭제",
+        operation_description = "뮤지션을 삭제합니다"
+    )
     def destroy(self, request, pk):
         """
         DELETE /musicians/{musician_id}/
@@ -123,6 +206,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
         musician.delete()
         return Response(status=status.HTTP_200_OK)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": SongSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션의 곡들 조회",
+        operation_description = "특정 뮤지션의 곡들을 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def songs(self, request, pk):
         """
@@ -135,6 +226,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
         rtn = SongSerializer(songs, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "뮤지션의 앨범들 조회",
+        operation_description = "특정 뮤지션의 앨범들을 곡을 통해서 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def albums(self, request, pk):
         """
@@ -154,6 +253,14 @@ class MusicianViewSet(viewsets.GenericViewSet):
 class SongViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": MusicianSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡 생성",
+        operation_description = "새 곡을 생성합니다"
+    )
     def create(self, request):
         """
         POST /songs/
@@ -167,6 +274,14 @@ class SongViewSet(viewsets.GenericViewSet):
         rtn = SongSerializer(song).data
         return Response(rtn, status=status.HTTP_201_CREATED)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": SongSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡 리스트 조회",
+        operation_description = "모든 곡 리스트를 조회합니다"
+    )
     def list(self, request):
         """
         GET /songs/
@@ -175,6 +290,14 @@ class SongViewSet(viewsets.GenericViewSet):
         rtn = SongSerializer(songs, many=True).data
         return Response(rtn, status=status.HTTP_201_CREATED)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": SongSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡 조회",
+        operation_description = "특정 곡을 조회합니다"
+    )
     def retrieve(self, request, pk):
         """
         GET /songs/{songs_id}/
@@ -185,6 +308,14 @@ class SongViewSet(viewsets.GenericViewSet):
         rtn = AlbumSerializer(song).data
         return Response(rtn, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema (
+        responses         = {
+            "200": SongSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡 삭제",
+        operation_description = "곡을 삭제합니다"
+    )
     def destroy(self, request, pk):
         """
         DELETE /songs/{songs_id}/
@@ -193,10 +324,18 @@ class SongViewSet(viewsets.GenericViewSet):
         song.delete()
         return Response(status=status.HTTP_200_OK)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡의 앨범 조회",
+        operation_description = "특정 곡의 앨범을 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def albums(self, request, pk):
         """
-        GET /songs/{song_id}/albums/
+        GET /songs/{song_id}/album/
         """
         song = Song.nodes.get_or_none(uuid=pk)
         if song is None:
@@ -205,6 +344,14 @@ class SongViewSet(viewsets.GenericViewSet):
         rtn = AlbumSerializer(albums, many=True).data
         return Response(rtn, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema (
+        responses         = {
+            "200": AlbumSerializer,
+            "404": "NOT_FOUND",
+        },
+        operation_id          = "곡의 뮤지션들 조회",
+        operation_description = "특정 곡의 뮤지션들을 조회합니다"
+    )
     @action(detail=True, methods=['GET'])
     def musicians(self, request, pk):
         """
