@@ -25,6 +25,7 @@ services:
       DB_HOST: mapiacompany_db
       DB_NAME: mapiacompany
       DJANGO_SETTINGS_MODULE: mapiacompany.settings.dev_local
+      NEOMODEL_NEO4J_BOLT_URL: neo4j:test@localhost:7687
     env_file:
       - .dockerenv.dev_local
     command:
