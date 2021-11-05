@@ -102,6 +102,7 @@ http://18.188.189.173:8011/swagger/
 
 ### GraphQL API
 http://18.188.189.173:8011/graphql
+
 ## 구현 기능
 ### 앨범 
 - 앨범의 이름을 입력받아 새로운 앨범을 등록합니다.
@@ -140,16 +141,21 @@ http://18.188.189.173:8011/graphql
 |구분   |  정보          |비고|
 |-------|----------------|----|
 |배포플랫폼 | AWS EC2    |    |
-|API 주소 |              |    |
-|Doc 주소 |              |    |
-|
+|API 주소 | http://18.188.189.173:8011/            |    |
+
 
 ## API TEST 방법
-스웨거 실행 후 개별 API 실행  
+### REST API
+swagger 실행 후 개별 API 실행  
+http://18.188.189.173:8011/swagger/
 
-예시파일(나중에 삭제하셔도 됩니다)
 ![screencapture-127-0-0-1-8000-swagger-2021-11-05-22_29_16](https://user-images.githubusercontent.com/8315252/140517972-25ed7dd1-8bb4-457d-8227-e817d2e952a2.png)
 
+### GraphQL API
+아래 링크 진입 후 Explorer 클릭 후 진행
+http://18.188.189.173:8011/graphql
+
+<img width="841" alt="스크린샷 2021-11-06 오전 5 56 27" src="https://user-images.githubusercontent.com/8219812/140577809-42bb1168-eea8-4251-8be8-a14782166d6f.png">
 
 ## 설치 및 실행 방법
 ###  Local 개발 및 테스트용
@@ -161,14 +167,10 @@ http://18.188.189.173:8011/graphql
 2. 가상 환경을 만들고 프로젝트에 사용한 python package를 받는다.
    1. Miniconda 사용시
         ```bash
-        conda create --name Assignment1-TW-JW-YY python=3.8
-        conda actvate Assignment1-TW-JW-YY
+        conda create --name Assignment2 python=3.8
+        conda actvate Assignment2
         pip install -r requirements.txt
         ```
-
-   2. VirtualEnv 사용시
-
-**😅추후입력**
 
 ###  배포용 
 1. 해당프로젝트를 clone 하고, 프로젝트 폴더로 들어간다.
@@ -177,16 +179,28 @@ http://18.188.189.173:8011/graphql
     git clone https://github.com/Wanted-Preonboarding-Backend-1st-G5/Assignment2
     cd Assignment2
     ```
-2. .dockerenv.deploy 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
-    
-    ```text
-    # .dockerenv.deploy
-    ```
+2. docker환경 설정 파일을 만든다.
+    2-1. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+      
+      ```text
+      # ..dockerenv.deploy_backend
+      DJANGO_SECRET_KEY='django시크릿키'
+      NEOMODEL_NEO4J_BOLT_URL='bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687'
+      ```
+   
+   2-2. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+   
+   ```text
+      # .dockerenv.deploy_db
+      NEO4J_AUTH='neo4j/db비밀번호'
+      ```
+
 3. docker-compose를 통해서 db와 서버를 실행시킨다.
     
     ```bash
     docker-compose -f docker-compose-deploy.yml up
     ```
+    
 4. 만약 백그라운드에서 실행하고 싶을 시 `-d` 옵션을 추가한다.
     ```bash
     docker-compose -f docker-compose-deploy.yml up -d
@@ -221,7 +235,10 @@ http://18.188.189.173:8011/graphql
 │   ├── types.py
 │   ├── urls.py
 │   └── views.py
-└── requirements.txt
+├── requirements.txt
+├── config
+│   └── nginx
+        └── nginx.conf
 ```
 
 ## TIL정리 (Blog)
