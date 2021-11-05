@@ -9,11 +9,11 @@
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|--------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     |    |
-|고유영 |[lunayyko](https://github.com/lunayyko)   |    |
-|박지원 |[jiwon5304](https://github.com/jiwon5304) |   |
-|최신혁 |[shchoi94](https://github.com/shchoi94) |   |
-|박세원 |[sw-develop](https://github.com/sw-develop) |   |
+|김태우 |[jotasic](https://github.com/jotasic)     | 장고초기세팅, 모델링, 도커이미지, neo4j디비세팅, 앨범 및 뮤지션 GraphQL작성, 테스트케이스|
+|고유영 |[lunayyko](https://github.com/lunayyko)   | 뮤지션api, 스웨거 |
+|박지원 |[jiwon5304](https://github.com/jiwon5304) | 곡api, 테스트케이스 |
+|최신혁 |[shchoi94](https://github.com/shchoi94) | neo4j디비세팅, api세팅, 연결api |
+|박세원 |[sw-develop](https://github.com/sw-develop) | neo4j디비세팅, 모델링, 곡GraphQL작성 |
 |
 
 ## 과제 내용
@@ -91,13 +91,25 @@
 > - ETC :  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/SWAGGER-5B8C04?style=for-the-badge&logo=Swagger&logoColor=white"/>
 
 ## 모델링
-**😅추후입력**
+![Image from iOS](https://user-images.githubusercontent.com/8315252/140517709-31f628f2-a364-4743-b9d0-d1029302a78d.jpg)
 
 ## API
-**😅추후입력**
+http://배포서버주소:8000/swagger/
+혹은 서버 구동 후 
+http://localhost:8000/swagger/
 
 ## 구현 기능
-**😅추후입력**
+- 앨범,뮤지션,곡의 생성, 개별조회, 리스트조회, 삭제
+
+- 앨범의 수록곡들 조회
+- 곡이 들어있는 앨범 조회
+- 뮤지션이 작업한 곡 조회
+- 곡에 참여한 뮤지션들 조회
+ 
+- 뮤지션의 앨범들 조회 (곡을 통해 연결)
+- 앨범에 참여한 뮤지션들 조회 (곡을 통해 연결)
+
+- 연결, 연결해제
 
 ### Docker
 - 팀원들의 빠른 개발환경 셋팅을 위해서 로컬 개발용과 배포용 docker-compose 파일을 만들어서 적용하였습니다.
@@ -113,7 +125,11 @@
 |
 
 ## API TEST 방법
-**😅추후입력**
+스웨거 실행 후 개별 API 실행  
+
+예시파일(나중에 삭제하셔도 됩니다)
+![screencapture-127-0-0-1-8000-swagger-2021-11-05-22_29_16](https://user-images.githubusercontent.com/8315252/140517972-25ed7dd1-8bb4-457d-8227-e817d2e952a2.png)
+
 
 ## 설치 및 실행 방법
 ###  Local 개발 및 테스트용
