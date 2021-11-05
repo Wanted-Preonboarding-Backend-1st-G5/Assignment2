@@ -1,0 +1,57 @@
+version: "3"
+services:
+  mapiacompany_deploy_db:
+    image: neo4j:4.3
+    container_name: mapiacompany_deploy_db
+    environment:
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4JLABS_PLUGINS=["graph-data-science", "apoc"]
+    env_file:
+      - .dockerenv.deploy_db
+
+    volumes:
+      - ./database:/data
+      - ./database_file:/var/lib/neo4j/import
+    ports:
+      - 7474:7474
+      - 7687:7687
+    restart: always
+    platform: linux/x86_64
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev-local
+    container_name: web
+    depends_on:
+      - mapiacompany_deploy_db
+    restart: always
+    environment:
+      - DJANGO_SETTINGS_MODULE=mapiacompany.settings.deploy
+    env_file:
+      - .dockerenv.deploy_backend
+    platform: linux/x86_64
+    ports:
+      - "8000:8000"
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py migrate
+        python manage.py collectstatic
+        python manage.py install_lables
+        gunicorn mapiacompany.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+  nginx:
+    image: nginx
+    container_name: nginx_service
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/static
+    ports:
+      - "8001:8001"
+    environment:
+      - TZ="Asia/Seoul"
+    depends_on:
+      - web
