@@ -4,8 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from music_streaming.models import Album, Musician
-from music_streaming.serializers import AlbumSerializer, MusicianSerializer
+from music_streaming.models import Album, Musician, Song
+from music_streaming.serializers import AlbumSerializer, MusicianSerializer, SongSerializer
 
 
 class AlbumViewSet(viewsets.GenericViewSet):
@@ -24,7 +24,7 @@ class AlbumViewSet(viewsets.GenericViewSet):
         album = Album(name=name).save()
         rtn = AlbumSerializer(album).data
         return Response(rtn, status=status.HTTP_201_CREATED)
-
+        
     def list(self, request):
         """
         GET /albums/
@@ -59,7 +59,8 @@ class AlbumViewSet(viewsets.GenericViewSet):
         if album is None:
             return Response({'error': 'DoesNotExist'})
         songs = album.song.all()
-        pass
+        rtn = SongSerializer(songs, many=True).data
+        return Response(rtn, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['GET'])
     def musicians(self, request, pk):
@@ -123,3 +124,49 @@ class MusicianViewSet(viewsets.GenericViewSet):
         musician = Musician.nodes.get_or_none(uuid=pk)
         musician.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+
+class SongViewSet(viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+
+    def create(self, request):
+        """
+        POST /songs/
+        data params
+        - name(required)
+        """
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error':'name field is required.'},status=status.HTTP_400_BAD_REQUEST)
+        song = Song(name=name).save()
+        rtn = SongSerializer(song).data
+        return Response(rtn, status=status.HTTP_201_CREATED)
+    
+    def list(self, request):
+        """
+        GET /albums/
+        """
+        songs = Song.nodes.all()
+        rtn = SongSerializer(songs, many=True).data
+        return Response(rtn, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk):
+        """
+        DELETE /songs/{songs_id}/
+        """
+        song = Song.nodes.get(uuid=pk)
+        song.delete()
+        return Response(status=status.HTTP_200_OK)
+    
+    @action(detail=True, methods=['GET'])
+    def albums(self, request, pk):
+        """
+        GET /songs/{song_id}/albums/
+        """
+        song = Song.nodes.get_or_none(uuid=pk)
+        if song is None:
+            return Response({'error': 'DoesNotExist'})
+        albums = song.album.all()
+        rtn = AlbumSerializer(albums, many=True).data
+        return Response(rtn, status=status.HTTP_200_OK)

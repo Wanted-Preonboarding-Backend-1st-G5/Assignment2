@@ -12,3 +12,9 @@ class MusicianSerializer(serializers.BaseSerializer):
         return {
             'name': musician.name,
         }
+        
+class SongSerializer(serializers.BaseSerializer):
+    def to_representation(self, song):
+        return {
+            'song': song.name,
+        }
