@@ -1,0 +1,127 @@
+_id,_labels,name,uuid,_start,_end,_type
+1,:Song,사랑해 그리고 기억해,da2d45a6170948a996d4b40edf1a5ff3,,,
+2,:Song,거짓말,fd89da2fca874d44b3a79b49bd89d19e,,,
+3,:Song,촛불하나,bd9f839c89ab4fa29e8807eb21786b76,,,
+4,:Song,길,c153eab57b814b9ba2fed9472932ff4b,,,
+5,:Song,니가 있어야 할 곳,065a8e814a7a4b68bcbace825fa57ed7,,,
+6,:Song,애수,e91c68d862774520b3a5a22b890bb64a,,,
+7,:Song,Friday Night,32b1ea4fa2424b70ba371caf52f11875,,,
+8,:Song,관찰,2170f025b3d741ff97dda5c26da961f9,,,
+9,:Song,Love like this,837a21e57c9a4e51b23eb33fffb23a19,,,
+10,:Song,Snow prince,4b95d4a8f47948faa6aa5b5416b9dfa4,,,
+11,:Song,경고,0e18cca01c50423fb6919a6b2fb89d79,,,
+12,:Song,널 부르는 노래,ee9a6ada95884a0eaa4078e690591d7a,,,
+13,:Song,Never again,bbc2f220643e4b3484e3afc0368c3505,,,
+14,:Song,내 머리가 나빠서,77bcff8621c64d4aa98123582c8e6818,,,
+15,:Song,U R Man,d22c2d3107cf4d20961be6adb027bcb1,,,
+16,:Song,Love ya,0e6d9d470d594afe9ba6f98760727630,,,
+17,:Album,god 1집,1a929b96828142f294067d9b4b23d9a8,,,
+18,:Album,god 2집,691ae33d34cf4459a0b65db5f864a270,,,
+19,:Album,ss501 1집,98d5cb05724d407ca928e65163727d33,,,
+20,:Album,ss501 2집,df356813f2454819b719e82b5e7937e5,,,
+21,:Musician,김태우,8d040c3530964ffa91b4f94abc7109a1,,,
+22,:Musician,윤계상,89783f199da34e4a8c1e40231e3255c9,,,
+23,:Musician,박준형,9253bafa55c947e6988a49a62aa1c4c1,,,
+24,:Musician,손호영,57ad82b91a0847549444bb8abd0489d9,,,
+25,:Musician,데니안,97ce7589905f4e5d9eda4468d87ebc21,,,
+26,:Musician,박정민,2533ea4812614557a00a53b09e5a2269,,,
+27,:Musician,김형준,30daedcaa26f483bad45e1dce813474e,,,
+28,:Musician,김현중,d3f551d8257d433ebe7005764bd2035b,,,
+29,:Musician,김규종,5065d9c9c3e7451480626c3e1cf1301e,,,
+30,:Musician,허영생,920410beb6f3440e9918e093dc1c3dfe,,,
+,,,,1,17,belongsto
+,,,,2,17,belongsto
+,,,,3,17,belongsto
+,,,,4,17,belongsto
+,,,,5,18,belongsto
+,,,,6,18,belongsto
+,,,,7,18,belongsto
+,,,,8,18,belongsto
+,,,,9,19,belongsto
+,,,,10,19,belongsto
+,,,,11,19,belongsto
+,,,,12,19,belongsto
+,,,,13,20,belongsto
+,,,,14,20,belongsto
+,,,,15,20,belongsto
+,,,,16,20,belongsto
+,,,,1,21,writtenby
+,,,,1,22,writtenby
+,,,,1,23,writtenby
+,,,,1,24,writtenby
+,,,,1,25,writtenby
+,,,,2,21,writtenby
+,,,,2,22,writtenby
+,,,,2,23,writtenby
+,,,,2,24,writtenby
+,,,,2,25,writtenby
+,,,,3,21,writtenby
+,,,,3,22,writtenby
+,,,,3,23,writtenby
+,,,,3,24,writtenby
+,,,,3,25,writtenby
+,,,,4,21,writtenby
+,,,,4,22,writtenby
+,,,,4,23,writtenby
+,,,,4,24,writtenby
+,,,,4,25,writtenby
+,,,,5,21,writtenby
+,,,,5,22,writtenby
+,,,,5,23,writtenby
+,,,,5,24,writtenby
+,,,,5,25,writtenby
+,,,,6,21,writtenby
+,,,,6,22,writtenby
+,,,,6,23,writtenby
+,,,,6,24,writtenby
+,,,,6,25,writtenby
+,,,,7,21,writtenby
+,,,,7,22,writtenby
+,,,,7,23,writtenby
+,,,,7,24,writtenby
+,,,,7,25,writtenby
+,,,,8,21,writtenby
+,,,,8,22,writtenby
+,,,,8,23,writtenby
+,,,,8,24,writtenby
+,,,,8,25,writtenby
+,,,,9,26,writtenby
+,,,,9,27,writtenby
+,,,,9,28,writtenby
+,,,,9,29,writtenby
+,,,,9,30,writtenby
+,,,,10,26,writtenby
+,,,,10,27,writtenby
+,,,,10,28,writtenby
+,,,,10,29,writtenby
+,,,,10,30,writtenby
+,,,,11,26,writtenby
+,,,,11,27,writtenby
+,,,,11,28,writtenby
+,,,,11,29,writtenby
+,,,,11,30,writtenby
+,,,,12,26,writtenby
+,,,,12,27,writtenby
+,,,,12,28,writtenby
+,,,,12,29,writtenby
+,,,,12,30,writtenby
+,,,,13,26,writtenby
+,,,,13,27,writtenby
+,,,,13,28,writtenby
+,,,,13,29,writtenby
+,,,,13,30,writtenby
+,,,,14,26,writtenby
+,,,,14,27,writtenby
+,,,,14,28,writtenby
+,,,,14,29,writtenby
+,,,,14,30,writtenby
+,,,,15,26,writtenby
+,,,,15,27,writtenby
+,,,,15,28,writtenby
+,,,,15,29,writtenby
+,,,,15,30,writtenby
+,,,,16,26,writtenby
+,,,,16,27,writtenby
+,,,,16,28,writtenby
+,,,,16,29,writtenby
+,,,,16,30,writtenby

@@ -3,7 +3,7 @@ from .base   import *
 ALLOWED_HOSTS = ['*']
 
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
-DEBUG      = True
+DEBUG      = False
 
 NEOMODEL_NEO4J_BOLT_URL = get_env_variable('NEOMODEL_NEO4J_BOLT_URL')
 NEOMODEL_SIGNALS = True
