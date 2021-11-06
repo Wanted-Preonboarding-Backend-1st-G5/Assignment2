@@ -206,28 +206,29 @@
 
 2. docker환경 설정 파일을 만든다.
   
-2-1. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+3. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
       
-      ```text
-      # ..dockerenv.deploy_backend
-      DJANGO_SECRET_KEY='django시크릿키'
-      NEOMODEL_NEO4J_BOLT_URL=bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687
-      ```
+    ```text
+    # ..dockerenv.deploy_backend
+    DJANGO_SECRET_KEY='django시크릿키'
+    NEOMODEL_NEO4J_BOLT_URL=bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687
+    ```
    
-2-2. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
-   
-   ```text
-      # .dockerenv.deploy_db
-      NEO4J_AUTH=neo4j/db비밀번호
-      ```
+4. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+  
+    ```text
+    # .dockerenv.deploy_db
+    NEO4J_AUTH=neo4j/db비밀번호
+    ```
 
-3. docker-compose를 통해서 db와 서버를 실행시킨다.
+5. docker-compose를 통해서 db와 서버를 실행시킨다.
     
     ```bash
     docker-compose -f docker-compose-deploy.yml up
     ```
     
-4. 만약 백그라운드에서 실행하고 싶을 시 `-d` 옵션을 추가한다.
+6. 만약 백그라운드에서 실행하고 싶을 시 `-d` 옵션을 추가한다.
+  
     ```bash
     docker-compose -f docker-compose-deploy.yml up -d
     ```
