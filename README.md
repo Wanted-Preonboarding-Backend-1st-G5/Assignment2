@@ -88,7 +88,7 @@
 ## 사용 기술 및 tools
 > - Back-End :  <img src="https://img.shields.io/badge/Python 3.8-3776AB?style=for-the-badge&logo=Python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Django 3.2-092E20?style=for-the-badge&logo=Django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/neo4j 4.2-0d73ff?style=for-the-badge&logo=neo4j&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/graphql-d31195?style=for-the-badge&logo=Graphql&logoColor=white"/>
 > - Deploy : <img src="https://img.shields.io/badge/AWS_EC2-232F3E?style=for-the-badge&logo=Amazon&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Docker-0052CC?style=for-the-badge&logo=Docker&logoColor=white"/>
-> - ETC :  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/SWAGGER-5B8C04?style=for-the-badge&logo=Swagger&logoColor=white"/>
+> - ETC :  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/SWAGGER-5B8C04?style=for-the-badge&logo=Swagger&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/>
 
 ## 모델링
 
@@ -97,11 +97,14 @@
 
 
 ## API
-### RSET API
-http://18.188.189.173:8011/swagger/
+### Postman(REST + GraphQL)
+[링크-postman document](https://documenter.getpostman.com/view/16042359/UVC3j7ZJ)
 
-### GraphQL API
-http://18.188.189.173:8011/graphql
+### RSET API(Swagger)
+[링크-Swagger](http://18.188.189.173:8011/swagger/)
+
+### GraphQL API(GraphiQL)
+[링크-GraphiQL](http://18.188.189.173:8011/graphql)
 
 ## 구현 기능
 ### 앨범 
@@ -132,6 +135,10 @@ http://18.188.189.173:8011/graphql
 - 곡과 뮤지션 혹은 곡과 앨범이 올바르게 입력되는지 확인합니다.
 - 올바른 입력이 확인 되면, 연결 혹은 연결 해제 기능을 제공합니다.
 
+### 추가 구현
+- Read API를 GraphQL 뿐만아니라, REST-API로 동작하도록 추가로 구현하였습니다.
+- 각 리소스의 단일 조회 기능을 REST-API로 추가 구현하였습니다.
+
 ### Docker
 - 팀원들의 빠른 개발환경 셋팅을 위해서 로컬 개발용과 배포용 docker-compose 파일을 만들어서 적용하였습니다.
 - 개발용 환경을 구축했을 시 장점은 팀원들의 개발환경 셋팅시간을 줄여줘서 구현에 더 집중 할 수 있습니다.
@@ -145,17 +152,15 @@ http://18.188.189.173:8011/graphql
 
 
 ## API TEST 방법
-### REST API
-swagger 실행 후 개별 API 실행  
-http://18.188.189.173:8011/swagger/
+1. 우측 링크를 클릭해서 postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment2/overview)
 
-![screencapture-127-0-0-1-8000-swagger-2021-11-05-22_29_16](https://user-images.githubusercontent.com/8315252/140517972-25ed7dd1-8bb4-457d-8227-e817d2e952a2.png)
+2. 정의된 SERVER_URL이 올바른지 확인 합니다. (18.188.189.173:8011)
+<img width="751" alt="스크린샷 2021-11-06 오전 9 41 15" src="https://user-images.githubusercontent.com/8219812/140591976-34107d63-c21e-4a18-8c47-8a3b740a2053.png">
 
-### GraphQL API
-아래 링크 진입 후 Explorer 클릭 후 진행
-http://18.188.189.173:8011/graphql
 
-<img width="841" alt="스크린샷 2021-11-06 오전 5 56 27" src="https://user-images.githubusercontent.com/8219812/140577809-42bb1168-eea8-4251-8be8-a14782166d6f.png">
+3. 만약 Send버튼이 비활성화가 될 시 fork를 이용해서 해당 postman project를 복사해서 시도하길 바랍니다.
+![image](https://user-images.githubusercontent.com/8219812/139912241-d6cb5831-23e8-4cbb-a747-f52c42601098.png)
+
 
 ## 설치 및 실행 방법
 ###  Local 개발 및 테스트용
