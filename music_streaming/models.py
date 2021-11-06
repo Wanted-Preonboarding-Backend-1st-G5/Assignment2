@@ -1,15 +1,15 @@
 import json
 from neomodel import (
                 StructuredNode, StringProperty, RelationshipTo,
-                 One, RelationshipFrom, OneOrMore, UniqueIdProperty
+                 ZeroOrOne,ZeroOrMore, RelationshipFrom, UniqueIdProperty
                 )
 
 
 class Song(StructuredNode):
     uuid     = UniqueIdProperty()
     name     = StringProperty()
-    album    = RelationshipTo('Album', 'belongsto', cardinality=One)
-    musician = RelationshipTo('Musician', 'writtenby', cardinality=OneOrMore)
+    album    = RelationshipTo('Album', 'belongsto', cardinality=ZeroOrOne)
+    musician = RelationshipTo('Musician', 'writtenby', cardinality=ZeroOrMore)
 
     def to_dictionary(self): 
         data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
@@ -21,7 +21,7 @@ class Song(StructuredNode):
 class Album(StructuredNode):
     uuid = UniqueIdProperty()
     name = StringProperty()
-    song = RelationshipFrom('Song', 'belongsto', cardinality=OneOrMore)
+    song = RelationshipFrom('Song', 'belongsto', cardinality=ZeroOrMore)
 
     def to_dictionary(self): 
         data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
@@ -33,7 +33,7 @@ class Album(StructuredNode):
 class Musician(StructuredNode):
     uuid = UniqueIdProperty()
     name = StringProperty()
-    song = RelationshipFrom('Song', 'writtenby', cardinality=OneOrMore)
+    song = RelationshipFrom('Song', 'writtenby', cardinality=ZeroOrMore)
 
     def to_dictionary(self): 
         data = json.loads(json.dumps(self.__properties__, ensure_ascii=False))
