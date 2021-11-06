@@ -164,6 +164,7 @@
 
 ## 설치 및 실행 방법
 ###  Local 개발 및 테스트용
+
 1. 해당프로젝트를 clone 하고, 프로젝트 폴더로 들어간다.
     ```bash
     git clone https://github.com/Wanted-Preonboarding-Backend-1st-G5/Assignment2
@@ -177,6 +178,24 @@
         pip install -r requirements.txt
         ```
 
+3. docker환경 설정 파일을 만든다.
+      ```text
+      # .dockerenv.dev_local
+      
+      DJANGO_SECRET_KEY='django시크릿키'
+      ```
+
+4. docker-compose를 통해서 db와 서버를 실행시킨다.
+    
+    ```bash
+    docker-compose -f docker-compose-dev-local.yml up
+    ```
+    
+5. 만약 백그라운드에서 실행하고 싶을 시 `-d` 옵션을 추가한다.
+    ```bash
+    docker-compose -f docker-compose-dev-local.yml up -d
+    ```
+
 ###  배포용 
 1. 해당프로젝트를 clone 하고, 프로젝트 폴더로 들어간다.
     
@@ -184,8 +203,10 @@
     git clone https://github.com/Wanted-Preonboarding-Backend-1st-G5/Assignment2
     cd Assignment2
     ```
+
 2. docker환경 설정 파일을 만든다.
-    2-1. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+  
+2-1. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
       
       ```text
       # ..dockerenv.deploy_backend
@@ -193,7 +214,7 @@
       NEOMODEL_NEO4J_BOLT_URL=bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687
       ```
    
-   2-2. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+2-2. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
    
    ```text
       # .dockerenv.deploy_db
