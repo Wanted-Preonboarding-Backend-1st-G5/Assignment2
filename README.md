@@ -190,14 +190,14 @@
       ```text
       # ..dockerenv.deploy_backend
       DJANGO_SECRET_KEY='django시크릿키'
-      NEOMODEL_NEO4J_BOLT_URL='bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687'
+      NEOMODEL_NEO4J_BOLT_URL=bolt://neo4j:db비밀번호@mapiacompany_deploy_db:7687
       ```
    
    2-2. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
    
    ```text
       # .dockerenv.deploy_db
-      NEO4J_AUTH='neo4j/db비밀번호'
+      NEO4J_AUTH=neo4j/db비밀번호
       ```
 
 3. docker-compose를 통해서 db와 서버를 실행시킨다.
