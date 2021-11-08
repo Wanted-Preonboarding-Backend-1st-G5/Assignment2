@@ -32,7 +32,7 @@ services:
       - .dockerenv.deploy_backend
     platform: linux/x86_64
     ports:
-      - "8000:8000"
+      - "8001:8001"
     command:
       - bash
       - -c
@@ -40,7 +40,7 @@ services:
         python manage.py migrate
         python manage.py collectstatic
         python manage.py install_lables
-        gunicorn mapiacompany.wsgi:application --bind 0.0.0.0:8000
+        gunicorn mapiacompany.wsgi:application --bind 0.0.0.0:8001
     volumes:
       - .:/usr/src/app/
   nginx:
@@ -50,7 +50,7 @@ services:
       - ./config/nginx:/etc/nginx/conf.d
       - ./static:/static
     ports:
-      - "8001:8001"
+      - "8011:8011"
     environment:
       - TZ="Asia/Seoul"
     depends_on:
